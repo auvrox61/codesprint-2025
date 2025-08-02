@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IB Weather</title>
+  <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Megrim&family=Orbitron&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-image: url('blurred_darker_rainforest.jpg');
+      background-size: cover;
+    }
+
+    .weatherlogo {
+      height: 40px;
+    }
+
+    #logobar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      justify-content: center;
+    }
+
+    #searchbar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 10px;
+    }
+
+    .search {
+      border-radius: 10px;
+      padding: 5px;
+      font-family: 'Kaushan Script', cursive;
+    }
+
+    .btn {
+      border-radius: 50%;
+      height: 30px;
+      width: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid black;
+      cursor: pointer;
+    }
+
+    .sitename {
+      font-family: 'Megrim', cursive;
+    }
+
+    .btn svg {
+      height: 20px;
+      width: 20px;
+    }
+
+    #cityinfo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-top: 10px;
+      margin-right: 40px;
+    }
+
+    #cityflag {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    .description {
+      margin-top: 2px;
+    }
+
+    #row1, #row2, #row3, #row4, #row5 {
+      display: flex;
+      justify-content: center;
+      gap: 300px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .search:hover {
+      background: linear-gradient(78deg, black, rgb(11, 0, 79), rgb(0, 151, 141));
+      color: white;
+    }
+
+    .btn:hover {
+      transform: scale(1.1);
+      transition: transform 0.5s ease;
+      background: linear-gradient(45deg, rgb(18, 0, 179), rgb(0, 242, 255));
+      color: antiquewhite;
+    }
+
+    .box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      width: 120px;
+    }
+
+    .cityName, .description, .temp, .feelslike, .max, .min, .pressure,
+    .humidity, .wind, .visibility, .sunrise, .sunset {
+      font-family: 'Kaushan Script', cursive;
+      color: azure;
+    }
+
+    .tempdigit, .feeldigit, .maxdigit, .mindigit, .pressuredigit,
+    .humiditydigit, .winddigit, .visibilitydigit, .sunrisedigit, .sunsetdigit {
+      font-family: 'Orbitron', sans-serif;
+      color: rgb(0, 255, 55);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div id="logobar">
+    <img src="iut bekars.svg" alt="logo" class="weatherlogo" />
+    <span class="sitename">IB WEATHER</span>
+  </div>
+
+  <div id="searchbar">
+    <input type="search" class="search" placeholder="Search For Location" />
+    <button class="btn" onclick="wtrData()">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round"
+          d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/>
+      </svg>
+    </button>
+  </div>
+
+  <div id="cityinfo">
+    <div id="cityflag">
+      <p class="cityName"></p>
+      <p class="flag"></p>
+    </div>
+    <p class="description"></p>
+  </div>
+
+  <!-- Weather Info Rows -->
+  <div id="row1">
+    <div class="box tempbox">
+      <p class="templogo"></p>
+      <p class="tempdigit"></p>
+      <p class="temp"></p>
+    </div>
+    <div class="box feelslikebox">
+      <p class="feelslikelogo"></p>
+      <p class="feeldigit"></p>
+      <p class="feelslike"></p>
+    </div>
+  </div>
+
+  <div id="row2">
+    <div class="box maxbox">
+      <p class="maxlogo"></p>
+      <p class="maxdigit"></p>
+      <p class="max"></p>
+    </div>
+    <div class="box minbox">
+      <p class="minlogo"></p>
+      <p class="mindigit"></p>
+      <p class="min"></p>
+    </div>
+  </div>
+
+  <div id="row3">
+    <div class="box pressurebox">
+      <p class="pressurelogo"></p>
+      <p class="pressuredigit"></p>
+      <p class="pressure"></p>
+    </div>
+    <div class="box humiditybox">
+      <p class="humiditylogo"></p>
+      <p class="humiditydigit"></p>
+      <p class="humidity"></p>
+    </div>
+  </div>
+
+  <div id="row4">
+    <div class="box windbox">
+      <p class="windlogo"></p>
+      <p class="winddigit"></p>
+      <p class="wind"></p>
+    </div>
+    <div class="box visibilitybox">
+      <p class="visibilitylogo"></p>
+      <p class="visibilitydigit"></p>
+      <p class="visibility"></p>
+    </div>
+  </div>
+
+  <div id="row5">
+    <div class="box sunrisebox">
+      <p class="sunriselogo"></p>
+      <p class="sunrisedigit"></p>
+      <p class="sunrise"></p>
+    </div>
+    <div class="box sunsetbox">
+      <p class="sunsetlogo"></p>
+      <p class="sunsetdigit"></p>
+      <p class="sunset"></p>
+    </div>
+  </div>
+
+  <script>
+
+    function formatHHMM(epochSeconds) {
+      const date = new Date(epochSeconds * 1000);
+      return date.toLocaleTimeString('en-GB', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+      });
+    }
+
+    const wtrData = async () => {
+      try {
+        const city = document.querySelector(".search").value.trim();
+
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=4701ad2f5b3d3228a578b93fcd0e4170&units=metric`);
+        const json = await response.json();
+
+        const forecastRes = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=4701ad2f5b3d3228a578b93fcd0e4170&units=metric`);
+        const forecastJson = await forecastRes.json();
+
+        const todayDate = new Date().getDate();
+        const todayTemps = forecastJson.list
+          .filter(item => {
+            const localDate = new Date(item.dt * 1000);
+            return localDate.getDate() === todayDate;
+          })
+          .map(item => item.main.temp);
+
+        let minTemp = json.main.temp;
+        let maxTemp = json.main.temp;
+        if (todayTemps.length > 0) {
+          minTemp = Math.min(...todayTemps);
+          maxTemp = Math.max(...todayTemps);
+        }
+
+        document.querySelector(".cityName").textContent = `${json.name}`;
+        document.querySelector(".flag").innerHTML = `<img src="https://flagcdn.com/w320/${(json.sys.country).toLowerCase()}.png" height="20px">`;
+        document.querySelector(".description").textContent = (json.weather[0].description).toUpperCase();
+
+        document.querySelector(".templogo").innerHTML = "<img src='temperature.png' height='45px'>";
+        document.querySelector(".tempdigit").textContent = json.main.temp.toFixed(1);
+        document.querySelector(".temp").textContent = "Temperature (C)";
+
+        document.querySelector(".feelslikelogo").innerHTML = "<img src='feels-like.png' height='45px'>";
+        document.querySelector(".feeldigit").textContent = json.main.feels_like.toFixed(1);
+        document.querySelector(".feelslike").textContent = "Feels Like (C)";
+
+        document.querySelector(".maxlogo").innerHTML = "<img src='high-temperature.png' height='45px'>";
+        document.querySelector(".maxdigit").textContent = maxTemp.toFixed(1);
+        document.querySelector(".max").textContent = "Max (C)";
+
+        document.querySelector(".minlogo").innerHTML = "<img src='min-temperature.png' height='45px'>";
+        document.querySelector(".mindigit").textContent = minTemp.toFixed(1);
+        document.querySelector(".min").textContent = "Min (C)";
+
+        document.querySelector(".pressurelogo").innerHTML = "<img src='pressure.png' height='45px'>";
+        document.querySelector(".pressuredigit").textContent = json.main.pressure;
+        document.querySelector(".pressure").textContent = "Pressure (hPa)";
+
+        document.querySelector(".humiditylogo").innerHTML = "<img src='humidity.png' height='45px'>";
+        document.querySelector(".humiditydigit").textContent = json.main.humidity;
+        document.querySelector(".humidity").textContent = "Humidity (%)";
+
+        document.querySelector(".windlogo").innerHTML = "<img src='wind-turbine.png' height='45px'>";
+        document.querySelector(".winddigit").textContent = (json.wind.speed * 3.6).toFixed(2);
+        document.querySelector(".wind").textContent = "Wind (KM/H)";
+
+        document.querySelector(".visibilitylogo").innerHTML = "<img src='visible.png' height='45px'>";
+        document.querySelector(".visibilitydigit").textContent = (json.visibility * 0.001).toFixed(2);
+        document.querySelector(".visibility").textContent = "Visibility (KM)";
+
+        document.querySelector(".sunriselogo").innerHTML = "<img src='sunrise.png' height='45px'>";
+        document.querySelector(".sunrisedigit").textContent = formatHHMM(json.sys.sunrise);
+        document.querySelector(".sunrise").textContent = "Sunrise";
+
+        document.querySelector(".sunsetlogo").innerHTML = "<img src='sunset.png' height='45px'>";
+        document.querySelector(".sunsetdigit").textContent = formatHHMM(json.sys.sunset);
+        document.querySelector(".sunset").textContent = "Sunset";
+
+      } catch (error) {
+        document.querySelector(".description").textContent = "Failed to get the Current Weather Data. Try again!";
+        document.querySelector(".cityName").textContent = "";
+        document.querySelector(".flag").textContent = "";
+      }
+    }
+    
+  </script>
+</body>
+</html>
